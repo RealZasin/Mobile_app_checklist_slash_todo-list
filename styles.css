@@ -54,3 +54,20 @@ button {
     left: 50%;
     transform: translate(-50%, -50%);
 }
+
+ul {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    gap: 0.5rem 0.5rem;
+    flex-grow: 1;
+    text-align: center;    
+}
+
+ul li {
+box-shadow: 0.1rem 0.1rem 0.2rem black;
+padding: 1rem;
+border-radius: 0.4rem;
+background-color: #FFFDF8;
+font-size: 1rem;
+}

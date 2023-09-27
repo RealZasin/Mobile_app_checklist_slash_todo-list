@@ -35,19 +35,33 @@ button.addEventListener('click', function() {
 });
 
 onValue(toDoListInDB, function(snapshot) {
-  let itemsArray = Object.values(snapshot.val());
+  let itemsArray = Object.entries(snapshot.val());
   
-  itemList.innerHTML = '';
+  clearItemListEl()
 
   for (let i = 0; i < itemsArray.length; i++) {
-    appendItemToShoppingListEl(itemsArray[i])
+    let currentItem = itemsArray[i];
+    
+    let currentItemID = currentItem[0]
+    let currentItemValue = currentItem[1]
+    
+    appendItemToShoppingListEl(currentItem)
 }
 })
 
-function appendItemToShoppingListEl(itemValue) {
-  itemList.innerHTML += `<li>${itemValue}</li>`
+function clearItemListEl() {
+  itemList.innerHTML = ""
+}
+
+function appendItemToShoppingListEl(item) {
+  const itemID = item[0]
+  const itemValue = item[1]
+  const newLi = document.createElement('li');
+  newLi.textContent = itemValue;
+  itemList.appendChild(newLi);
 }
 
 function clearInputFieldEl() {
   inputField.value = ""
 }
+
