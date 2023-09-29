@@ -1,5 +1,5 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js';
-import { getDatabase, ref, push, onValue } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js';
+import { getDatabase, ref, push, onValue, remove } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js';
 
 const appSettings = {
   databaseURL: 'https://playground-bc12c-default-rtdb.europe-west1.firebasedatabase.app/'
@@ -45,7 +45,7 @@ onValue(toDoListInDB, function(snapshot) {
     let currentItemID = currentItem[0]
     let currentItemValue = currentItem[1]
     
-    appendItemToShoppingListEl(currentItem)
+    appendItemToToDoListEl(currentItem);
 }
 })
 
@@ -53,11 +53,20 @@ function clearItemListEl() {
   itemList.innerHTML = ""
 }
 
-function appendItemToShoppingListEl(item) {
+function appendItemToToDoListEl(item) {
   const itemID = item[0]
   const itemValue = item[1]
+
   const newLi = document.createElement('li');
+  
   newLi.textContent = itemValue;
+
+  newLi.addEventListener("click", function () {
+    let exactLocationOfItemInDB = ref(database, `toDoList/${itemID}`)
+  
+  remove(exactLocationOfItemInDB);
+  })
+  
   itemList.appendChild(newLi);
 }
 
