@@ -34,41 +34,40 @@ button.addEventListener('click', function() {
   // inputField.value = '';
 });
 
-onValue(toDoListInDB, function(snapshot) {
-  let itemsArray = Object.entries(snapshot.val());
-  
-  clearItemListEl()
+onValue(toDoListInDB, function (snapshot) {
+  let itemsArray = snapshot.val();
 
-  for (let i = 0; i < itemsArray.length; i++) {
-    let currentItem = itemsArray[i];
-    
-    let currentItemID = currentItem[0]
-    let currentItemValue = currentItem[1]
-    
-    appendItemToToDoListEl(currentItem);
-}
-})
+  clearItemListEl();
+
+  if (itemsArray) {
+    for (let itemID in itemsArray) {
+      let currentItemValue = itemsArray[itemID];
+      appendItemToToDoListEl(itemID, currentItemValue);
+    }
+  } else {
+    itemList.innerHTML = "Nothing here yet";
+  }
+});
+
 
 function clearItemListEl() {
   itemList.innerHTML = ""
 }
 
-function appendItemToToDoListEl(item) {
-  const itemID = item[0]
-  const itemValue = item[1]
+function appendItemToToDoListEl(itemID, itemValue) {
+  const newLi = document.createElement("li");
 
-  const newLi = document.createElement('li');
-  
   newLi.textContent = itemValue;
 
   newLi.addEventListener("click", function () {
-    let exactLocationOfItemInDB = ref(database, `toDoList/${itemID}`)
-  
-  remove(exactLocationOfItemInDB);
-  })
-  
+    let exactLocationOfItemInDB = ref(database, `toDoList/${itemID}`);
+
+    remove(exactLocationOfItemInDB);
+  });
+
   itemList.appendChild(newLi);
 }
+
 
 function clearInputFieldEl() {
   inputField.value = ""
